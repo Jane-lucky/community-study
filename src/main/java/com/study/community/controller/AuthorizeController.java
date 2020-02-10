@@ -51,7 +51,7 @@ public class AuthorizeController {
             //存储数据库
             String token = UUID.randomUUID().toString();
             user.setToken(token);
-            user.setAccountId(String.valueOf(gituser.getId()));
+            user.setAccount(String.valueOf(gituser.getId()));
             user.setName(gituser.getName());
             user.setAvatarUrl(gituser.getAvatar_url());
             userService.creatOrUpdate(user);
