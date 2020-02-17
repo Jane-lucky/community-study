@@ -1,5 +1,6 @@
 package com.study.community.service;
 
+import com.study.community.Mapper.QuestionExtMapper;
 import com.study.community.Mapper.QuestionMapper;
 import com.study.community.Mapper.UserMapper;
 import com.study.community.Model.Question;
@@ -24,6 +25,8 @@ public class QuestionService {
     private UserMapper userMapper;
     @Autowired
     private QuestionMapper questionMapper;
+    @Autowired
+    private QuestionExtMapper questionExtMapper;
 
     public PaginationDTO list(Integer page, Integer size) {
         //page=5*(i-1);
@@ -126,5 +129,12 @@ public class QuestionService {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOTFOUND);
             }
         }
+    }
+
+    public void incView(Integer id) {
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incView(question);
     }
 }
