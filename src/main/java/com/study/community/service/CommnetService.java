@@ -10,6 +10,7 @@ import com.study.community.exception.CustomizeErrorCode;
 import com.study.community.exception.CustomizeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CommnetService {
@@ -20,6 +21,7 @@ public class CommnetService {
     @Autowired
     private QuestionExtMapper questionExtMapper;
 
+    @Transactional
     public void insert(Comment comment) {
         if (comment.getParentId() == null || comment.getParentId() == 0) {
             throw new CustomizeException(CustomizeErrorCode.TAGGET_NOT_FOUND);
