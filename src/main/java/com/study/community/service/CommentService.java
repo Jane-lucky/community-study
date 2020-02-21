@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class CommnetService {
+public class CommentService {
     @Autowired
     private CommentMapper commentMapper;
     @Autowired
@@ -26,7 +26,7 @@ public class CommnetService {
         if (comment.getParentId() == null || comment.getParentId() == 0) {
             throw new CustomizeException(CustomizeErrorCode.TAGGET_NOT_FOUND);
         }
-        if (comment.getType() == null || CommentTypeEnum.isExit(comment.getType())) {
+        if (comment.getType() == null || !CommentTypeEnum.isExit(comment.getType())) {
             throw new CustomizeException(CustomizeErrorCode.TYPE_PARAM_WRONG);
         }
         if (comment.getType() == CommentTypeEnum.COMMENT.getType()) {
