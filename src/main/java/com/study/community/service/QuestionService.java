@@ -127,6 +127,7 @@ public class QuestionService {
             updateQuestion.setTag(question.getTag());
             QuestionExample example = new QuestionExample();
             example.createCriteria().andIdEqualTo(question.getId());
+//            example.setOrderByClause("gmt_creat decs");
             int updated=questionMapper.updateByExampleSelective(updateQuestion, example);
             if(updated!=1){
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
