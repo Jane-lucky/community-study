@@ -1,9 +1,6 @@
 package com.study.community.service;
 
-import com.study.community.Mapper.CommentMapper;
-import com.study.community.Mapper.QuestionExtMapper;
-import com.study.community.Mapper.QuestionMapper;
-import com.study.community.Mapper.UserMapper;
+import com.study.community.Mapper.*;
 import com.study.community.Model.*;
 import com.study.community.dto.CommentDTO;
 import com.study.community.enums.CommentTypeEnum;
@@ -30,6 +27,8 @@ public class CommentService {
     private QuestionExtMapper questionExtMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private CommentExtMapper commentExtMapper;
 
     @Transactional
     public void insert(Comment comment) {
@@ -46,6 +45,11 @@ public class CommentService {
                 throw new CustomizeException(CustomizeErrorCode.COMMRNT_NOT_FOUND);
             }
             commentMapper.insert(comment);
+            //增加评论数
+            Comment parentComment = new Comment();
+            parentComment.setId(comment.getParentId());
+            parentComment.setCommentCount(1);
+            commentExtMapper.incCommentCount(parentComment);
         } else {
             //回复问题
             Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
