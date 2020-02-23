@@ -41,7 +41,7 @@ public class CommentService {
         }
         if (comment.getType() == CommentTypeEnum.COMMENT.getType()) {
             //回复评论
-            Comment dbcomment = commentMapper.selectByPrimaryKey(comment.getId());
+            Comment dbcomment = commentMapper.selectByPrimaryKey(comment.getParentId());
             if (dbcomment == null) {
                 throw new CustomizeException(CustomizeErrorCode.COMMRNT_NOT_FOUND);
             }
@@ -58,11 +58,11 @@ public class CommentService {
         }
     }
 
-    public List<CommentDTO> listByQuestionId(Long id) {
+    public List<CommentDTO> listByTargetId(Long id, CommentTypeEnum type) {
         CommentExample commentExample = new CommentExample();
         commentExample.createCriteria()
                 .andParentIdEqualTo(id)
-                .andTypeEqualTo(CommentTypeEnum.QUESTION.getType());//确定类型，usercomment
+                .andTypeEqualTo(type.getType());//确定类型，usercomment
         commentExample.setOrderByClause("gmt_create desc");
 //        查找用户信息
         List<Comment> comments = commentMapper.selectByExample(commentExample);
