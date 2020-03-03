@@ -1,6 +1,6 @@
 package com.study.community.controller;
 
-import com.study.community.Mapper.UserMapper;
+
 import com.study.community.Model.User;
 import com.study.community.dto.AccessTokenDTO;
 import com.study.community.dto.GitHubUser;
