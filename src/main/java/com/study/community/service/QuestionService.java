@@ -8,6 +8,7 @@ import com.study.community.Model.QuestionExample;
 import com.study.community.Model.User;
 import com.study.community.dto.PaginationDTO;
 import com.study.community.dto.QuestionDTO;
+import com.study.community.dto.QuestionQueryDTO;
 import com.study.community.exception.CustomizeErrorCode;
 import com.study.community.exception.CustomizeException;
 import org.apache.ibatis.session.RowBounds;
@@ -33,11 +34,19 @@ public class QuestionService {
     @Autowired
     private QuestionExtMapper questionExtMapper;
 
-    public PaginationDTO list(Integer page, Integer size) {
+    public PaginationDTO list(String search,Integer page, Integer size) {
+
+        if (!StringUtils.isNullOrEmpty(search)) {
+
+            String[] tags = StringUtils.arraySplit(search, ',', true);
+            search = Arrays.stream(tags).collect(Collectors.joining("|"));
+        }
         //page=5*(i-1);
         PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO<>();
         Integer totalPage;
-        Integer totalCount = (int) questionMapper.countByExample(new QuestionExample());
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setSearch(search);
+        Integer totalCount = questionExtMapper.countBySearch(questionQueryDTO);
         if (totalCount % size == 0) {
             totalPage = totalCount / size;
         } else {
@@ -54,7 +63,9 @@ public class QuestionService {
         Integer offset = size * (page - 1);
         QuestionExample questionExample = new QuestionExample();
         questionExample.setOrderByClause("gmt_creat desc");
-        List<Question> questions = questionMapper.selectByExampleWithBLOBsWithRowbounds(questionExample, new RowBounds(offset, size));
+        questionQueryDTO.setSize(size);
+        questionQueryDTO.setPage(offset);
+        List<Question> questions = questionExtMapper.selectBySearch(questionQueryDTO);
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
         for (Question question : questions) {
