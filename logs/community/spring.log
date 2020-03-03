@@ -1,0 +1,3 @@
+2020-03-03 19:01:34.711  INFO 12196 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2020-03-03 19:01:37.028  INFO 12196 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8887 (http) with context path ''
+2020-03-03 19:01:37.043  INFO 12196 --- [restartedMain] c.study.community.CommunityApplication   : Started CommunityApplication in 21.94 seconds (JVM running for 31.026)
