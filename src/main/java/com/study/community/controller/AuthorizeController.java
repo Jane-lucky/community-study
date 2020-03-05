@@ -44,11 +44,13 @@ public class AuthorizeController {
         accessTokenDTO.setCode(code);
         accessTokenDTO.setRedirect_uri(redirectUri);
         accessTokenDTO.setState(state);
+        //获取accessToken
         String accessToken = gitHubprovider.getAccessToken(accessTokenDTO);
         GitHubUser gituser = gitHubprovider.getUser(accessToken);
+        //判断用户是否存在
         if(gituser!=null && gituser.getId()!=null){
             User user = new User();
-            //存储数据库
+            //存储数据库，随机产生token
             String token = UUID.randomUUID().toString();
             user.setToken(token);
             user.setAccount(String.valueOf(gituser.getId()));

@@ -13,6 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
     private SessionInterceptor sessionInterceptor;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        //判断哪些路径需要过该方法
         registry.addInterceptor(sessionInterceptor).addPathPatterns("/**");
     }
 
